@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="gameContainer">
+    <div id="hud" class="hidden">
+      <div id="scoreDisplay">Pontos: 0</div>
+      <div id="questionDisplay">Narrativa aqui</div>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="ui-layer">
+      <div id="startScreen" class="overlay">
+        <div class="panel">
+          <h1>Roquette-Pinto e o Mistério da Educação pelo Rádio</h1>
+          <p>Viaje pelo sertão brasileiro e descubra como Roquette-Pinto levou conhecimento para milhares de pessoas através do rádio.</p>
+          <button id="startBtn">Começar</button>
+        </div>
+      </div>
+      <div id="endScreen" class="overlay hidden">
+        <div class="panel">
+          <h1>Fim de Jogo</h1>
+          <p id="finalScore">Pontos: 0</p>
+          <button id="restartBtn">Jogar Novamente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="GameObject.js"></script>
+  <script src="AudioSystem.js"></script>
+  <script src="Background.js"></script>
+  <script src="RoquettePinto.js"></script>
+  <script src="Moringa.js"></script>
+  <script src="Game.js"></script>
+  <script>
+    const game = new Game(document.getElementById('gameCanvas'));
+    window.game = game;
+  </script>
+</body>
+</html>

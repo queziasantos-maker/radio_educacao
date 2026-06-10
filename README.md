@@ -1,2 +1,2 @@
-# radio_educacao
-Jogo educativo sobre a radio-educação no Brasil
+# roquette
+Game educativo sobre radio-educação
