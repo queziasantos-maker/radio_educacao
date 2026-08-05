@@ -1,101 +1,271 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body, html { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: sans-serif; }
+/* ==========================================================
+   RESET
+========================================================== */
 
-#gameContainer {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-#hud {
-  grid-row: 1;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  background: #3e2723;
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+    font-family:Georgia,"Times New Roman",serif;
 }
 
-#gameCanvas {
-  grid-row: 2;
-  display: block;
-  width: 100%;
-  height: 100%;
+/* ==========================================================
+   GAME
+========================================================== */
+
+#gameContainer{
+    position:relative;
+    display:grid;
+    grid-template-rows:auto 1fr;
+    width:100%;
+    height:100%;
+    overflow:hidden;
 }
 
-#ui-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  grid-row: 1 / -1;
-}
-#ui-layer > * { pointer-events: auto; }
+/* ==========================================================
+   HUD
+========================================================== */
 
-.overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 100;
-}
+#hud{
 
-#startScreen { }
-#endScreen { }
+    grid-row:1;
 
-.panel {
-  background: #f4e4bc;
-  padding: 2rem;
-  border-radius: 10px;
-  text-align: center;
-  border: 4px solid #8b4513;
-  color: #3e2723;
-  max-width: 80%;
+    background:#3e2723;
+
+    padding:18px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:15px;
+
+    align-items:center;
+
+    border-bottom:4px solid #8b4513;
 }
 
-.panel h1 { margin-bottom: 1rem; }
-.panel p { margin-bottom: 2rem; font-size: 1.2rem; white-space: pre-line; }
+/* ==========================================================
+   SCORE
+========================================================== */
 
-#finalScore { }
+#scoreDisplay{
 
-button {
-  background: #d2691e;
-  color: white;
-  border: 2px solid #8b4513;
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.2s;
+    align-self:flex-start;
+
+    color:#fff;
+
+    font-size:26px;
+
+    font-weight:bold;
+
+    text-shadow:2px 2px 4px #000;
 }
 
-button:hover { background: #a0522d; }
+/* ==========================================================
+   QUESTION
+========================================================== */
 
-#startBtn { }
-#restartBtn { }
+#questionDisplay{
 
-#scoreDisplay {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  text-shadow: 2px 2px 4px #000;
-  align-self: flex-start;
+    width:95%;
+
+    max-width:1500px;
+
+    min-height:170px;
+
+    height:170px;
+
+    overflow-y:auto;
+
+    background:#f7efd9;
+
+    border:4px solid #8b4513;
+
+    border-radius:12px;
+
+    padding:22px 28px;
+
+    color:#2b2118;
+
+    text-align:left;
+
+    font-size:20px;
+
+    line-height:1.7;
+
+    box-shadow:
+        inset 0 0 8px rgba(0,0,0,.15),
+        0 3px 10px rgba(0,0,0,.35);
+
+    white-space:pre-line;
 }
 
-#questionDisplay {
-  background: rgba(244, 228, 188, 0.9);
-  padding: 15px 30px;
-  border-radius: 10px;
-  border: 3px solid #8b4513;
-  font-size: 1.3rem;
-  color: #3e2723;
-  text-align: center;
-  max-width: 80%;
+/* Scroll */
+
+#questionDisplay::-webkit-scrollbar{
+
+    width:10px;
 }
 
-.hidden { display: none !important; }
+#questionDisplay::-webkit-scrollbar-thumb{
+
+    background:#8b4513;
+    border-radius:10px;
+}
+
+/* ==========================================================
+   CANVAS
+========================================================== */
+
+#gameCanvas{
+
+    grid-row:2;
+
+    width:100%;
+
+    height:100%;
+
+    min-width:0;
+
+    min-height:0;
+
+    display:block;
+}
+
+/* ==========================================================
+   OVERLAY
+========================================================== */
+
+#ui-layer{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+}
+
+#ui-layer>*{
+
+    pointer-events:auto;
+}
+
+.overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.70);
+
+    z-index:999;
+}
+
+/* ==========================================================
+   PAINEL
+========================================================== */
+
+.panel{
+
+    background:#f4e4bc;
+
+    border:5px solid #8b4513;
+
+    border-radius:12px;
+
+    padding:40px;
+
+    width:80%;
+
+    max-width:900px;
+
+    text-align:center;
+
+    color:#3e2723;
+
+    box-shadow:0 0 25px rgba(0,0,0,.45);
+}
+
+.panel h1{
+
+    font-size:40px;
+
+    margin-bottom:25px;
+}
+
+.panel p{
+
+    font-size:22px;
+
+    line-height:1.8;
+
+    white-space:pre-line;
+}
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+button{
+
+    margin-top:20px;
+
+    padding:14px 28px;
+
+    font-size:20px;
+
+    border-radius:8px;
+
+    border:2px solid #8b4513;
+
+    background:#d2691e;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+button:hover{
+
+    background:#9c4f16;
+}
+
+/* ==========================================================
+   FINAL SCORE
+========================================================== */
+
+#finalScore{
+
+    font-size:24px;
+
+    line-height:1.8;
+
+    margin-top:20px;
+}
+
+/* ==========================================================
+   UTIL
+========================================================== */
+
+.hidden{
+
+    display:none !important;
+}
+
+

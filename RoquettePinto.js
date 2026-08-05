@@ -33,29 +33,148 @@ class RoquettePinto extends GameObject {
     }
   }
 
-  draw(ctx) {
-    ctx.fillStyle = '#f1c27d';
+draw(ctx) {
+
+    const armSwing = this.isMoving ? Math.sin(this.walkCycle) * 6 : 0;
+    const legSwing = this.isMoving ? Math.sin(this.walkCycle) * 8 : 0;
+
+    // Cabeça
+    ctx.fillStyle = "#f1c27d";
     ctx.beginPath();
-    ctx.arc(this.x + 40, this.y + 30, 20, 0, Math.PI * 2);
+    ctx.arc(this.x + 40, this.y + 28, 18, 0, Math.PI * 2);
     ctx.fill();
-    
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 2;
+
+    // Chapéu (estilo explorador)
+    ctx.fillStyle = "#7b5a35";
+
+    // Aba
+    ctx.fillRect(this.x + 18, this.y + 8, 44, 4);
+
+    // Copa
+    ctx.fillRect(this.x + 28, this.y - 6, 24, 16);
+
+    // Faixa
+    ctx.fillStyle = "#4e342e";
+    ctx.fillRect(this.x + 28, this.y + 4, 24, 3);
+
+    // Olhos (sem óculos)
+    ctx.fillStyle = "#000";
+
     ctx.beginPath();
-    ctx.arc(this.x + 30, this.y + 25, 6, 0, Math.PI * 2);
-    ctx.arc(this.x + 50, this.y + 25, 6, 0, Math.PI * 2);
-    ctx.moveTo(this.x + 36, this.y + 25);
-    ctx.lineTo(this.x + 44, this.y + 25);
+    ctx.arc(this.x + 34, this.y + 26, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(this.x + 46, this.y + 26, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Nariz
+    ctx.strokeStyle = "#8d6e63";
+    ctx.beginPath();
+    ctx.moveTo(this.x + 40, this.y + 28);
+    ctx.lineTo(this.x + 39, this.y + 33);
     ctx.stroke();
 
-    ctx.fillStyle = '#2c3e50';
-    ctx.fillRect(this.x + 20, this.y + 50, 40, 60);
+    // Sorriso
+    ctx.beginPath();
+    ctx.arc(this.x + 40, this.y + 36, 5, 0, Math.PI);
+    ctx.stroke();
 
-    ctx.fillStyle = '#1a252f';
-    const legOffset1 = this.isMoving ? Math.sin(this.walkCycle) * 10 : 0;
-    const legOffset2 = this.isMoving ? Math.sin(this.walkCycle + Math.PI) * 10 : 0;
-    
-    ctx.fillRect(this.x + 20 + legOffset1, this.y + 110, 15, 40);
-    ctx.fillRect(this.x + 45 + legOffset2, this.y + 110, 15, 40);
-  }
+    // Pescoço
+    ctx.strokeStyle = "#f1c27d";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(this.x + 40, this.y + 45);
+    ctx.lineTo(this.x + 40, this.y + 50);
+    ctx.stroke();
+
+    // Paletó
+    ctx.fillStyle = "#2c3e50";
+    ctx.fillRect(this.x + 24, this.y + 50, 32, 55);
+
+    // Gravata
+    ctx.fillStyle = "#8b0000";
+    ctx.fillRect(this.x + 38, this.y + 50, 4, 24);
+
+    // Braço esquerdo
+    ctx.strokeStyle = "#f1c27d";
+    ctx.lineWidth = 5;
+
+    ctx.beginPath();
+    ctx.moveTo(this.x + 24, this.y + 60);
+    ctx.lineTo(this.x + 10, this.y + 75 + armSwing);
+    ctx.stroke();
+
+    // Braço direito
+    ctx.beginPath();
+    ctx.moveTo(this.x + 56, this.y + 60);
+    ctx.lineTo(this.x + 70, this.y + 72 - armSwing);
+    ctx.stroke();
+
+    // Cabo da lupa
+    ctx.strokeStyle = "#5d4037";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.moveTo(this.x + 70, this.y + 72 - armSwing);
+    ctx.lineTo(this.x + 78, this.y + 84 - armSwing);
+    ctx.stroke();
+
+    // Lente
+    ctx.strokeStyle = "#444";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.arc(
+        this.x + 82,
+        this.y + 88 - armSwing,
+        8,
+        0,
+        Math.PI * 2
+    );
+    ctx.stroke();
+
+    // Reflexo da lente
+    ctx.strokeStyle = "#87CEFA";
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+    ctx.arc(
+        this.x + 80,
+        this.y + 86 - armSwing,
+        5,
+        Math.PI * 1.2,
+        Math.PI * 1.8
+    );
+    ctx.stroke();
+
+    // Perna esquerda
+    ctx.strokeStyle = "#1a252f";
+    ctx.lineWidth = 7;
+
+    ctx.beginPath();
+    ctx.moveTo(this.x + 32, this.y + 105);
+    ctx.lineTo(this.x + 28 + legSwing, this.y + 145);
+    ctx.stroke();
+
+    // Perna direita
+    ctx.beginPath();
+    ctx.moveTo(this.x + 48, this.y + 105);
+    ctx.lineTo(this.x + 52 - legSwing, this.y + 145);
+    ctx.stroke();
+
+    // Sapatos
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 5;
+
+    ctx.beginPath();
+    ctx.moveTo(this.x + 22 + legSwing, this.y + 145);
+    ctx.lineTo(this.x + 34 + legSwing, this.y + 145);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(this.x + 46 - legSwing, this.y + 145);
+    ctx.lineTo(this.x + 58 - legSwing, this.y + 145);
+    ctx.stroke();
+}
 }

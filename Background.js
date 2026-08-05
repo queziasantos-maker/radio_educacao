@@ -35,11 +35,83 @@ class Background extends GameObject {
   }
 
   drawCactus(ctx, x, y) {
-    ctx.fillStyle = '#2E8B57';
-    ctx.fillRect(x, y - 100, 20, 100);
-    ctx.fillRect(x - 30, y - 70, 30, 15);
-    ctx.fillRect(x - 30, y - 90, 15, 30);
-    ctx.fillRect(x + 20, y - 50, 30, 15);
-    ctx.fillRect(x + 35, y - 80, 15, 40);
-  }
+
+    // Base da torre
+    ctx.strokeStyle = "#555";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + 20, y - 120);
+    ctx.lineTo(x + 40, y);
+    ctx.stroke();
+
+    // Travessas
+    for (let i = 0; i < 8; i++) {
+
+        const yy = y - i * 15;
+
+        ctx.beginPath();
+        ctx.moveTo(x + 5, yy);
+        ctx.lineTo(x + 35, yy);
+        ctx.stroke();
+
+    }
+
+    // Diagonais
+    for (let i = 0; i < 7; i++) {
+
+        const y1 = y - i * 15;
+        const y2 = y - (i + 1) * 15;
+
+        ctx.beginPath();
+        ctx.moveTo(x + 5, y1);
+        ctx.lineTo(x + 35, y2);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(x + 35, y1);
+        ctx.lineTo(x + 5, y2);
+        ctx.stroke();
+
+    }
+
+    // Antena superior
+    ctx.beginPath();
+    ctx.moveTo(x + 20, y - 120);
+    ctx.lineTo(x + 20, y - 140);
+    ctx.stroke();
+
+    // Ondas de rádio
+    ctx.strokeStyle = "#4FC3F7";
+    ctx.lineWidth = 2;
+
+    for (let r = 10; r <= 25; r += 7) {
+
+        ctx.beginPath();
+        ctx.arc(
+            x + 20,
+            y - 145,
+            r,
+            Math.PI * 1.2,
+            Math.PI * 1.8
+        );
+        ctx.stroke();
+
+    }
+
+    // Estais
+    ctx.strokeStyle = "#999";
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+    ctx.moveTo(x + 20, y - 80);
+    ctx.lineTo(x - 20, y);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(x + 20, y - 80);
+    ctx.lineTo(x + 60, y);
+    ctx.stroke();
+    }
 }
