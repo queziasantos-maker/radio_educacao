@@ -33,8 +33,7 @@ correct:0
 {
 text:`
 Frequência 2 - Um evento histórico
-"No dia 7 de setembro de 1922, durante a comemoração do centenário da Independência,
-brasileiros ouviram pela primeira vez uma transmissão de rádio..."
+"No dia 7 de setembro de 1922, brasileiros ouviram pela primeira vez uma transmissão de rádio..."
 Fonte: BRASIL. Ministério das Comunicações.
 Primeira transmissão oficial, em 1922, marcou o início do rádio no Brasil.
 Publicado em 6 set. 2022.
