@@ -167,7 +167,6 @@ apud COELHO, 2016.
 Desafio do Caçador de Pistas: O que Ariosto Espinheira pretendia ao ensinar Geografia pelo rádio?
 `,
 options:[
-,
 "Ensinar apenas a localização das capitais.",
 "Divulgar notícias sobre as cidades brasileiras.",
 "Incentivar viagens entre os estados.",
