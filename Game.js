@@ -80,7 +80,7 @@ correct:0
 
 {
 text:`
-Frequência 4 – Sintonizando 1926
+Frequência 4 - Sintonizando 1926
 
 Você acaba de desembarcar em 1926. Uma vitrine exibe um grande anúncio da "Philips".
 As pessoas param para observá-lo com curiosidade. 
@@ -104,7 +104,7 @@ Frequência 5 - A popularização do rádio
 Se empresas passaram a fabricar e vender aparelhos de rádio no Brasil, o que isso indicava?
 `,
 options:[
-"O rádio estava se tornando cada vez mais popular.",
+"O rádio estava se tornando cada vez mais utilizado.",
 "O rádio deixava de ser utilizado.",
 "O rádio era usado apenas por cientistas.",
 "O rádio só funcionava em outros países."
