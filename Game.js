@@ -102,8 +102,7 @@ correct:0
 text:`
 Frequência 5 - A popularização do rádio
 
-Se empresas passaram a fabricar e vender aparelhos de rádio no Brasil,
-o que isso indicava?
+Se empresas passaram a fabricar e vender aparelhos de rádio no Brasil, o que isso indicava?
 `,
 options:[
 "O rádio estava se tornando cada vez mais popular.",
@@ -166,7 +165,6 @@ Fonte:
 "O Brasil foi apresentado aos estudantes de forma inédita:
 como um país dividido em cinco regiões segundo suas características naturais." ESPINHEIRA, 1938, p.42,
 apud COELHO, 2016.
-
 Desafio do Caçador de Pistas: O que Ariosto Espinheira pretendia ao ensinar Geografia pelo rádio?
 `,
 options:[
@@ -461,7 +459,7 @@ async initSave() {
 	    "Excelente! Você tem feito bom uso das fontes históricas.",
 	    "Você acertou de novo! Excelente sacada.",
 		"Que investigação! Você encontrou a evidência certa e recuperou mais um fragmento da História.",
-		"Boa observação! Um verdadeiro caçador de pistas sabe interpretar as fontes Históricas.",
+		"Boa observação! Um verdadeiro caçador também faz inferência.",
 		"Muito bem! Mais uma memória foi recuperada. Continue sintonizando a História.",
 		"Demais! Toda investigação exige atenção às evidências. Você foi no alvo.",
 		"Que maravilha! Você posicionou o dial bem na frequência certa.",
