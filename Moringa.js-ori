@@ -1,0 +1,120 @@
+class Moringa extends GameObject {
+  constructor(x, y, text, isCorrect) {
+    super(x, y, 120, 150);
+    this.text = text;
+    this.isCorrect = isCorrect;
+    this.hover = false;
+  }
+
+draw(ctx) {
+
+    // sombra
+    ctx.fillStyle = "rgba(0,0,0,.20)";
+    ctx.beginPath();
+    ctx.ellipse(this.x + 60, this.y + 125, 42, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // gabinete do rádio
+    ctx.fillStyle = this.hover ? "#b07a3c" : "#8b5a2b";
+    ctx.fillRect(this.x + 10, this.y + 15, 100, 75);
+
+    // moldura
+    ctx.strokeStyle = "#4e2d12";
+    ctx.lineWidth = 3;
+    ctx.strokeRect(this.x + 10, this.y + 15, 100, 75);
+
+    // tela frontal
+    ctx.fillStyle = "#d9c79a";
+    ctx.fillRect(this.x + 18, this.y + 23, 64, 58);
+
+    // grade do alto-falante
+    ctx.strokeStyle = "#8b5a2b";
+    ctx.lineWidth = 1;
+
+    for(let i=0;i<7;i++){
+        ctx.beginPath();
+        ctx.moveTo(this.x + 24, this.y + 28 + i*8);
+        ctx.lineTo(this.x + 76, this.y + 28 + i*8);
+        ctx.stroke();
+    }
+
+    // mostrador
+    ctx.fillStyle="#ece6d6";
+    ctx.beginPath();
+    ctx.roundRect(this.x+86,this.y+23,16,24,3);
+    ctx.fill();
+
+    // ponteiro
+    ctx.strokeStyle="#c0392b";
+    ctx.beginPath();
+    ctx.moveTo(this.x+89,this.y+42);
+    ctx.lineTo(this.x+99,this.y+28);
+    ctx.stroke();
+
+    // botão superior
+    ctx.fillStyle="#d4af37";
+    ctx.beginPath();
+    ctx.arc(this.x+90,this.y+60,4,0,Math.PI*2);
+    ctx.fill();
+
+    // botão inferior
+    ctx.beginPath();
+    ctx.arc(this.x+100,this.y+60,4,0,Math.PI*2);
+    ctx.fill();
+
+    // pés
+    ctx.fillStyle="#3d2411";
+    ctx.fillRect(this.x+20,this.y+90,10,4);
+    ctx.fillRect(this.x+90,this.y+90,10,4);
+
+    // placa da resposta
+    ctx.fillStyle="#f7f0d8";
+    ctx.strokeStyle="#8b5a2b";
+    ctx.lineWidth=2;
+
+    ctx.fillRect(this.x-5,this.y+102,130,38);
+    ctx.strokeRect(this.x-5,this.y+102,130,38);
+
+    // texto
+    ctx.fillStyle="#222";
+    ctx.font="bold 12px Arial";
+    ctx.textAlign="center";
+    ctx.textBaseline="middle";
+
+    const maxWidth=115;
+    const words=this.text.split(" ");
+    let lines=[];
+    let line="";
+
+    for(const word of words){
+
+        const test=line+word+" ";
+
+        if(ctx.measureText(test).width>maxWidth){
+
+            lines.push(line);
+
+            line=word+" ";
+
+        }else{
+
+            line=test;
+
+        }
+    }
+
+    lines.push(line);
+
+    const startY=this.y+116;
+
+    lines.slice(0,3).forEach((l,i)=>{
+
+        ctx.fillText(
+            l.trim(),
+            this.x+60,
+            startY+i*12
+        );
+
+    });
+
+}

@@ -40,8 +40,7 @@ Publicado em 6 set. 2022.
 Você acabou de chegar ao Rio de Janeiro, em 7 de setembro de 1922.
 Ao ligar um rádio experimental, você ouve um discurso que ficará marcado
 na história do Brasil.
-Descubra qual acontecimento histórico estava sendo celebrado durante
-essa primeira transmissão oficial de rádio.
+Descubra qual acontecimento histórico estava sendo celebrado durante essa primeira transmissão oficial de rádio.
 `,
 options:[
 "A Proclamação da República.",
@@ -85,8 +84,8 @@ Frequência 4 - Sintonizando 1926
 Você acaba de desembarcar em 1926. Uma vitrine exibe um grande anúncio da "Philips".
 As pessoas param para observá-lo com curiosidade. 
 Fonte: Revista ELECTRON, disponível em Fundação Oswaldo Cruz. 
-Se você fosse um morador daquela época,
-qual mensagem esse anúncio provavelmente lhe transmitiria?
+
+Se você fosse um morador daquela época, qual mensagem esse anúncio provavelmente lhe transmitiria?
 `,
 options:[
 "Ter um rádio aproxima sua casa das novidades, da música e das informações.",
@@ -298,21 +297,39 @@ async initSave() {
   };
 }
   setupResize() {
-    const fit = () => {
+    this.resizeCanvas = () => {
       const dpr = window.devicePixelRatio || 1;
       const r = this.canvas.getBoundingClientRect();
       if (r.width <= 0 || r.height <= 0) return;
-      this.canvas.width  = Math.floor(r.width  * dpr);
+
+      this.canvas.width = Math.floor(r.width * dpr);
       this.canvas.height = Math.floor(r.height * dpr);
+
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.ctx.scale(dpr, dpr);
+
       this.logicalWidth = r.width;
       this.logicalHeight = r.height;
+
+      // IMPORTANT: after the HUD changes the canvas height, rebuild the
+      // scene using the new logical dimensions. This keeps the answer
+      // cards and the background inside the visible canvas.
       this.layoutScene();
+
+      requestAnimationFrame(() => {
+        const box = document.getElementById('questionDisplay');
+        if (box) window.dispatchEvent(new Event('questionBoxResize'));
+      });
     };
-    window.addEventListener('resize', fit);
-    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(fit).observe(this.canvas);
-    fit();
+
+    window.addEventListener('resize', this.resizeCanvas);
+
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(this.resizeCanvas);
+      this.resizeObserver.observe(this.canvas);
+    }
+
+    this.resizeCanvas();
   }
 
   startGame() {
@@ -320,11 +337,23 @@ async initSave() {
     this.score = 0;
     this.currentQuestionIndex = 0;
     this.audio.startBGM();
+
     document.getElementById('startScreen').classList.add('hidden');
     document.getElementById('endScreen').classList.add('hidden');
     document.getElementById('hud').classList.remove('hidden');
+
     this.updateHUD();
-    this.layoutScene();
+
+    // The HUD occupies real layout space only after it is made visible.
+    // Resize on the next frame so the canvas gets its final height before
+    // positioning the player, background and answer cards.
+    requestAnimationFrame(() => {
+      if (this.resizeCanvas) {
+        this.resizeCanvas();
+      } else {
+        this.layoutScene();
+      }
+    });
   }
 
   layoutScene() {
@@ -335,7 +364,11 @@ async initSave() {
     this.entities.push(this.bg);
 
     if (this.state === 'PLAYING') {
-      this.player = new RoquettePinto(20, this.logicalHeight - 150 - 150);
+      const mobile = this.logicalWidth <= 768;
+      const playerY = mobile
+        ? Math.max(10, this.logicalHeight - 115)
+        : Math.max(10, this.logicalHeight - 300);
+      this.player = new RoquettePinto(20, playerY);
       this.entities.push(this.player);
 
       if (this.currentQuestionIndex < this.questions.length) {
@@ -350,41 +383,266 @@ async initSave() {
 
     const q = this.questions[index];
 
-    document.getElementById('questionDisplay').innerHTML = q.text;
+    // Exibe o contexto e a fonte histórica com fonte menor,
+    // deixando a pergunta em destaque e evitando a barra de rolagem.
+    const questionDisplay = document.getElementById('questionDisplay');
+    const rawText = q.text.trim();
+
+    // ============================================================
+    // Estrutura da caixa:
+    //   1. Contexto
+    //   2. Fonte histórica (menor + itálico)
+    //   3. Pergunta (maior + negrito)
+    //
+    // A separação NÃO usa pontuação, porque referências bibliográficas
+    // podem conter "." (p.23, 2011 etc.) e isso fazia algumas perguntas
+    // desaparecerem.
+    // ============================================================
+
+    // A pergunta é sempre a última parte interrogativa do texto.
+    // Usamos o último "?" e procuramos o início da linha/segmento da pergunta.
+    // Isso evita que pontos de referências bibliográficas (p.23, 2011 etc.)
+    // sejam confundidos com o fim da pergunta.
+    const questionMark = rawText.lastIndexOf('?');
+    let questionStart = -1;
+
+    if (questionMark >= 0) {
+      const beforeQuestion = rawText.slice(0, questionMark + 1);
+
+      // Procuramos, de trás para frente, uma linha que tenha um marcador
+      // natural de pergunta. A lista cobre as formulações presentes no jogo.
+      const lines = beforeQuestion.split(/\r?\n/);
+      const starters = /^(Ao ler|De acordo com|Se você|Se empresas|Ao chamar|Qual\b|Quem\b|Por que\b|O que\b|Desafio\b|Você acabou|Descubra\b|Qual era\b|Qual foi\b|Quem era\b)/i;
+
+      let accumulated = 0;
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (starters.test(line)) {
+          questionStart = accumulated + lines[i].search(/\S/);
+        }
+        accumulated += lines[i].length + 1;
+      }
+
+      // Fallback seguro: a última linha antes do ?.
+      if (questionStart < 0) {
+        const lastNewline = beforeQuestion.lastIndexOf('\n');
+        questionStart = lastNewline >= 0 ? lastNewline + 1 : 0;
+      }
+    } else {
+      questionStart = rawText.lastIndexOf('\n') + 1;
+    }
+
+    const contextText = rawText.slice(0, questionStart).trim();
+    const questionText = rawText.slice(questionStart).trim();
+
+    // A fonte começa em "Fonte:" e vai até imediatamente antes da pergunta.
+    // Assim fontes com várias linhas também são preservadas corretamente.
+    const sourceMatch = contextText.match(/(?:^|\r?\n)\s*(Fonte:)/i);
+
+    let contextOnly = contextText;
+    let sourceText = '';
+
+    if (sourceMatch) {
+      const sourceStart = sourceMatch.index + sourceMatch[0].search(/Fonte:/i);
+      contextOnly = contextText.slice(0, sourceStart).trim();
+      sourceText = contextText.slice(sourceStart).trim();
+    }
+
+    questionDisplay.innerHTML = `
+      ${contextOnly ? `<div class="historical-context">${contextOnly}</div>` : ''}
+      ${sourceText ? `<div class="historical-source"><em>${sourceText}</em></div>` : ''}
+      <div class="historical-question">${questionText}</div>
+    `;
+
+    // Mark the two longest question boxes so their typography can be
+    // adjusted without changing the game flow or the other frequencies.
+    questionDisplay.classList.remove('frequency-3', 'frequency-6');
+    if (index === 2) questionDisplay.classList.add('frequency-3');
+    if (index === 5) questionDisplay.classList.add('frequency-6');
+
+    // ============================================================
+    // Question box
+    //
+    // Desktop: preserve the original visual proportions from style.css.
+    // Mobile: use a compact box and smaller context/source text.
+    // ============================================================
+    const contextElement = questionDisplay.querySelector('.historical-context');
+    const sourceElement = questionDisplay.querySelector('.historical-source');
+    const questionElement = questionDisplay.querySelector('.historical-question');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const compact = window.innerWidth <= 420;
+
+    if (isMobile) {
+      Object.assign(questionDisplay.style, {
+        overflow: 'hidden',
+        overflowY: 'hidden',
+        overflowX: 'hidden',
+        boxSizing: 'border-box',
+        width: '100%',
+        maxWidth: '100%',
+        lineHeight: '1.15',
+        whiteSpace: 'normal',
+        wordBreak: 'normal',
+        overflowWrap: 'break-word',
+        height: compact ? 'clamp(138px, 27dvh, 215px)' : 'clamp(145px, 29dvh, 250px)',
+        minHeight: compact ? '138px' : '145px',
+        padding: compact ? '8px 9px' : '10px 12px'
+      });
+
+      if (contextElement) {
+        Object.assign(contextElement.style, {
+          fontSize: compact ? '11px' : '12px',
+          lineHeight: '1.18',
+          fontWeight: '400',
+          margin: '0 0 4px 0',
+          width: '100%',
+          maxWidth: '100%',
+          whiteSpace: 'normal',
+          overflowWrap: 'break-word'
+        });
+      }
+
+      if (sourceElement) {
+        Object.assign(sourceElement.style, {
+          fontSize: compact ? '9px' : '10px',
+          lineHeight: '1.12',
+          fontWeight: '400',
+          fontStyle: 'italic',
+          margin: '0 0 6px 0',
+          width: '100%',
+          maxWidth: '100%',
+          whiteSpace: 'normal',
+          overflowWrap: 'break-word'
+        });
+      }
+
+      Object.assign(questionElement.style, {
+        fontSize: compact ? '16px' : '18px',
+        lineHeight: '1.2',
+        fontWeight: '700',
+        margin: '0',
+        width: '100%',
+        maxWidth: '100%',
+        whiteSpace: 'normal',
+        overflowWrap: 'break-word'
+      });
+
+      const fitQuestionBox = () => {
+        let attempts = 0;
+        while (questionDisplay.scrollHeight > questionDisplay.clientHeight + 1 && attempts < 50) {
+          const qSize = parseFloat(getComputedStyle(questionElement).fontSize);
+          const cSize = contextElement ? parseFloat(getComputedStyle(contextElement).fontSize) : 0;
+          const sSize = sourceElement ? parseFloat(getComputedStyle(sourceElement).fontSize) : 0;
+
+          if (qSize > 13) {
+            questionElement.style.fontSize = `${qSize - 0.35}px`;
+          } else if (contextElement && cSize > 8.5) {
+            contextElement.style.fontSize = `${cSize - 0.2}px`;
+          } else if (sourceElement && sSize > 7.5) {
+            sourceElement.style.fontSize = `${sSize - 0.15}px`;
+          } else {
+            break;
+          }
+          attempts++;
+        }
+      };
+
+      requestAnimationFrame(fitQuestionBox);
+    } else {
+      // Do not inject desktop dimensions from JavaScript.
+      // style.css remains the source of truth for the desktop layout.
+      Object.assign(questionDisplay.style, {
+        overflow: 'hidden',
+        overflowY: 'hidden',
+        overflowX: 'hidden',
+        boxSizing: 'border-box',
+        width: '95%',
+        maxWidth: '1500px',
+        lineHeight: '1.7',
+        whiteSpace: 'normal',
+        wordBreak: 'normal',
+        overflowWrap: 'normal'
+      });
+
+      if (contextElement) {
+        Object.assign(contextElement.style, {
+          fontSize: '20px',
+          lineHeight: '1.35',
+          fontWeight: '400',
+          margin: '0 0 5px 0'
+        });
+      }
+
+      if (sourceElement) {
+        Object.assign(sourceElement.style, {
+          fontSize: '14px',
+          lineHeight: '1.2',
+          fontWeight: '400',
+          fontStyle: 'italic',
+          margin: '0 0 7px 0'
+        });
+      }
+
+      Object.assign(questionElement.style, {
+        fontSize: '24px',
+        lineHeight: '1.35',
+        fontWeight: '700',
+        margin: '0'
+      });
+    }
 
     this.entities = this.entities.filter(e => !(e instanceof Moringa));
     this.moringas = [];
 
-    // Largura ocupada por cada conjunto (rádio + caixa)
-    const objectWidth = 270;
+    const mobile = this.logicalWidth <= 768;
 
-    // Margens laterais
-    const leftMargin = 30;
-    const rightMargin = 40;
+    if (mobile) {
+      // Two columns on phones/tablets. Dimensions are calculated from the
+      // actual canvas width, so cards never extend beyond the viewport.
+      const columns = 2;
+      const marginX = Math.max(6, Math.floor(this.logicalWidth * 0.025));
+      const gapX = 8;
+      const gapY = 10;
+      const cardWidth = Math.max(
+        110,
+        Math.floor((this.logicalWidth - marginX * 2 - gapX) / columns)
+      );
+      const cardHeight = this.logicalWidth <= 420 ? 78 : 84;
 
-    // Área útil
-    const usableWidth = this.logicalWidth - leftMargin - rightMargin;
+      // Keep the answer area visible near the upper/middle part of the
+      // actual canvas. The background remains fully visible behind it.
+      const startY = Math.max(18, Math.floor(this.logicalHeight * 0.08));
 
-    // Espaçamento entre centros dos objetos
-    const spacing = usableWidth / q.options.length;
+      q.options.forEach((opt, i) => {
+        const col = i % columns;
+        const row = Math.floor(i / columns);
+        const x = marginX + col * (cardWidth + gapX);
+        const y = startY + row * (cardHeight + gapY);
 
-    q.options.forEach((opt, i) => {
-
-        const x = leftMargin + i * spacing;
-
-        const y = this.logicalHeight - 400;
-
-        const m = new Moringa(
-            x,
-            y,
-            opt,
-            i === q.correct
-        );
+        const m = new Moringa(x, y, opt, i === q.correct, {
+          mobile: true,
+          width: cardWidth,
+          height: cardHeight
+        });
 
         this.moringas.push(m);
         this.entities.push(m);
+      });
+    } else {
+      // Desktop: original horizontal layout.
+      const leftMargin = 30;
+      const rightMargin = 40;
+      const usableWidth = this.logicalWidth - leftMargin - rightMargin;
+      const spacing = usableWidth / q.options.length;
 
-    });
+      q.options.forEach((opt, i) => {
+        const x = leftMargin + i * spacing;
+        const y = this.logicalHeight - 400;
+        const m = new Moringa(x, y, opt, i === q.correct);
+        this.moringas.push(m);
+        this.entities.push(m);
+      });
+    }
 
 }
 
@@ -431,7 +689,7 @@ async initSave() {
       });
     });
 
-    this.canvas.addEventListener('click', (e) => {
+    const selectAnswer = (e) => {
       if (this.state !== 'PLAYING') return;
       if (this.player && this.player.isMoving) return;
       const rect = this.canvas.getBoundingClientRect();
@@ -440,11 +698,13 @@ async initSave() {
 
       const clickedEntity = this.getObjectAt(x, y);
       if (clickedEntity && clickedEntity instanceof Moringa) {
-        this.player.walkTo(clickedEntity.x - 60, () => {
+        this.player.walkTo(Math.max(0, clickedEntity.x - 60), () => {
           this.handleAnswer(clickedEntity.isCorrect);
         });
       }
-    });
+    };
+
+    this.canvas.addEventListener('pointerdown', selectAnswer, { passive: true });
   }
 
   handleAnswer(isCorrect) {

@@ -1,0 +1,524 @@
+class Game {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.entities = [];
+    this.moringas = [];
+    this.scrollX = 0;
+    this.scrollY = 0;
+    this.lastTime = 0;
+    this.state = 'START';
+    this.score = 0;
+    this.currentQuestionIndex = 0;
+    
+    this.questions = [
+
+{
+text: `
+<h2>📻 Frequência 1 – O início de uma grande ideia</h2>
+<p>Umas das memórias perdidas foi encontrada. Analise a primeira fonte histórica. Ela contém uma pista sobre a origem de uma das maiores revoluções da comunicação.</p>
+<p><b>Fonte histórica</b></p>
+<p><i>"A ideia consiste em levar música aos lares por meio da transmissão sem fios."</i></p>
+<p>
+<div class="citation">
+SARNOFF apud OLIVEIRA (2011, p.23). Em: OLIVEIRA.
+</div>
+</p>
+<p><b>
+Ao ler essa fonte, qual inovação ela destaca?
+</b></p>
+`,
+options:[
+"A possibilidade de transmitir sons e informações sem o uso de fios.",
+"A criação da televisão.",
+"A invenção do telefone celular.",
+"A transmissão de imagens pela internet."
+],
+correct:0
+},
+
+{
+text:`
+<h2>📻 Frequência 2</h2>
+
+<p><i>
+"No dia 7 de setembro de 1922, durante a comemoração do centenário da Independência,
+brasileiros ouviram pela primeira vez uma transmissão de rádio..."
+</i></p>
+
+<p>
+<small>
+Fonte: BRASIL. Ministério das Comunicações.
+Primeira transmissão oficial, em 1922, marcou o início do rádio no Brasil.
+Publicado em 6 set. 2022.
+</small>
+</p>
+
+<p>
+Você acabou de chegar ao Rio de Janeiro, em 7 de setembro de 1922.
+Ao ligar um rádio experimental, você ouve um discurso que ficará marcado
+na história do Brasil.
+</p>
+
+<p><b>
+Descubra qual acontecimento histórico estava sendo celebrado durante
+essa primeira transmissão oficial de rádio.
+</b></p>
+`,
+options:[
+"A Proclamação da República.",
+"A inauguração da Rádio Sociedade.",
+"O centenário da Independência do Brasil.",
+"A criação do Ministério das Comunicações."
+],
+correct:2
+},
+
+{
+text:`
+<h2>📻 Frequência 3 – Novas conexões</h2>
+
+<p>
+Uma nova memória foi restaurada.
+Analise a fonte histórica e descubra o que impulsionou
+o surgimento do radioamadorismo.
+</p>
+
+<p><b>Fonte</b></p>
+
+<p><i>
+"Assim, duas foram as motrizes que alavancaram o radioamadorismo:
+a curiosidade técnica e a necessidade de suprir lacunas de comunicação
+entre pontos remotos..."
+</i></p>
+
+<p>
+<small>
+FRANCO, Carlos Fernando Martins; MENESES, Verônica Dantas.
+Radioamadorismo: comunicação, individualidade, comunidade.
+Anais do XXXVII Congresso Brasileiro de Ciências da Comunicação
+(INTERCOM), 2014.
+</small>
+</p>
+
+<p><b>
+De acordo com a fonte, por que o radioamadorismo começou
+a ganhar força no início do século XX?
+</b></p>
+`,
+options:[
+"Porque as pessoas buscavam novas formas de comunicação e tinham interesse em experimentar a tecnologia.",
+"Porque já existia internet em todo o país.",
+"Porque o rádio era utilizado apenas para ouvir músicas.",
+"Porque todas as cidades já possuíam sistemas eficientes de telefonia."
+],
+correct:0
+},
+
+{
+text:`
+<h2>📻 Frequência 4 – Sintonizando 1926</h2>
+
+<p>
+Você acaba de desembarcar em 1926.
+Uma vitrine exibe um grande anúncio da Philips.
+As pessoas param para observá-lo com curiosidade.
+</p>
+
+<p><b>
+Se você fosse um morador daquela época,
+qual mensagem esse anúncio provavelmente transmitiria?
+</b></p>
+`,
+options:[
+"Ter um rádio aproxima sua casa das novidades, da música e das informações.",
+"O rádio será substituído em breve por outra tecnologia.",
+"O rádio é um equipamento de uso exclusivo das fábricas.",
+"Somente especialistas podem utilizar um rádio."
+],
+correct:0
+},
+
+{
+text:`
+<h2>📻 Frequência 5</h2>
+
+<p>
+Se empresas passaram a fabricar e vender aparelhos de rádio no Brasil,
+o que isso indica?
+</p>
+`,
+options:[
+"O rádio estava se tornando cada vez mais popular.",
+"O rádio deixava de ser utilizado.",
+"O rádio era usado apenas por cientistas.",
+"O rádio só funcionava em outros países."
+],
+correct:0
+},
+{
+text:`
+<h2>📖 CAPÍTULO 2</h2>
+
+<h2>📻 Frequência 1 – A missão educativa de Roquette-Pinto</h2>
+
+<p>
+Em 1923, o educador Edgar Roquette-Pinto criou a Rádio Sociedade do Rio de Janeiro,
+acreditando que o rádio poderia levar educação e cultura a todos.
+</p>
+
+<p><b>Fonte histórica</b></p>
+
+<p><i>
+"[...] A rádio foi projetada para ser uma verdadeira 'escola' [...]
+Foi idealizada para ser, nas palavras de Roquette,
+'o livro dos que não sabiam ler'."
+</i></p>
+
+<p>
+<small>
+LIMA, Nísia Trindade; SÁ, Dominichi Miranda de.
+Roquette-Pinto: ciência e humanismo no Brasil do século XX.
+ANPUH, 2005, p. 8.
+</small>
+</p>
+
+<p><b>
+Ao chamar o rádio de "o livro dos que não sabiam ler",
+o que Roquette-Pinto queria destacar?
+</b></p>
+`,
+options:[
+"Que o rádio poderia levar conhecimento também às pessoas que não sabiam ler.",
+"Que o rádio substituiria os livros.",
+"Que apenas as escolas poderiam usar o rádio.",
+"Que o rádio transmitia apenas aulas de alfabetização."
+],
+correct:0
+},
+
+{
+text:`
+<h2>📻 Frequência 2 – A criação da Rádio Sociedade</h2>
+
+<p><b>Fonte histórica</b></p>
+
+<p><i>
+"Roquette-Pinto foi o principal idealizador da Rádio Sociedade do Rio de Janeiro."
+</i></p>
+
+<p>
+<small>
+MOREIRA; MASSARANI, 2001.
+</small>
+</p>
+
+<p><b>
+Qual era o principal objetivo de Roquette-Pinto ao criar a Rádio Sociedade?
+</b></p>
+`,
+options:[
+"Promover apenas programas musicais.",
+"Difundir educação, ciência e cultura para a população.",
+"Vender aparelhos de rádio.",
+"Transmitir propagandas comerciais."
+],
+correct:1
+},
+
+{
+text:`
+<h2>📻 Frequência 3 – Ariosto Espinheira</h2>
+
+<p>
+Uma nova memória foi encontrada.
+Ariosto Espinheira transformou o rádio em uma verdadeira sala de aula sobre o Brasil.
+</p>
+
+<p><b>Fonte histórica</b></p>
+
+<p><i>
+"O Brasil foi apresentado aos estudantes de forma inédita:
+como um país dividido em cinco regiões segundo suas características naturais."
+</i></p>
+
+<p>
+<small>
+ESPINHEIRA, 1938, p.42,
+apud COELHO, 2016.
+</small>
+</p>
+
+<p><b>
+🕵️ Desafio do Caçador de Pistas
+
+O que Ariosto Espinheira pretendia ao ensinar Geografia pelo rádio?
+</b></p>
+`,
+options:[
+"Ajudar os estudantes a conhecerem melhor as diferentes regiões do Brasil.",
+"Ensinar apenas a localização das capitais.",
+"Divulgar notícias sobre as cidades brasileiras.",
+"Incentivar viagens entre os estados."
+],
+correct:0
+},
+
+{
+text:`
+<h2>📻 Frequência 4 – A imaginação pelo rádio</h2>
+
+<p>
+As transmissões educativas utilizavam diferentes recursos sonoros
+para tornar as aulas mais interessantes.
+</p>
+
+<p><b>Fonte histórica</b></p>
+
+<p><i>
+"...utilizava recursos de sonoplastia [...] capazes de estimular
+a imaginação do ouvinte."
+</i></p>
+
+<p>
+<small>
+COELHO, 2016, p.162.
+</small>
+</p>
+
+<p><b>
+O que essa estratégia permitiu ao programa de rádio?
+</b></p>
+`,
+options:[
+"Aproximar os ouvintes das histórias por meio da imaginação.",
+"Ensinar apenas por imagens.",
+"Substituir os professores.",
+"Divulgar propagandas comerciais."
+],
+correct:0
+}
+
+]
+
+
+    this.audio = new AudioSystem();
+
+    this.initSave();
+    this.setupResize();
+    this.layoutScene();
+    this.setupInput();
+    this.start();
+  }
+
+async initSave() {
+  this.saveData = {
+    highScore: Number(localStorage.getItem("highScore") || 0)
+  };
+}
+  setupResize() {
+    const fit = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const r = this.canvas.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) return;
+      this.canvas.width  = Math.floor(r.width  * dpr);
+      this.canvas.height = Math.floor(r.height * dpr);
+      this.ctx.scale(dpr, dpr);
+      this.logicalWidth = r.width;
+      this.logicalHeight = r.height;
+      this.layoutScene();
+    };
+    window.addEventListener('resize', fit);
+    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(fit).observe(this.canvas);
+    fit();
+  }
+
+  startGame() {
+    this.state = 'PLAYING';
+    this.score = 0;
+    this.currentQuestionIndex = 0;
+    this.audio.startBGM();
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('endScreen').classList.add('hidden');
+    document.getElementById('hud').classList.remove('hidden');
+    this.updateHUD();
+    this.layoutScene();
+  }
+
+  layoutScene() {
+    this.entities = [];
+    this.moringas = [];
+    
+    this.bg = new Background(this.logicalWidth || 800, this.logicalHeight || 600);
+    this.entities.push(this.bg);
+
+    if (this.state === 'PLAYING') {
+      this.player = new RoquettePinto(20, this.logicalHeight - 150 - 150);
+      this.entities.push(this.player);
+
+      if (this.currentQuestionIndex < this.questions.length) {
+        this.loadQuestion(this.currentQuestionIndex);
+      }
+    }
+  }
+
+  loadQuestion(index) {
+    if (this.bg) this.bg.setScenario(index);
+    const q = this.questions[index];
+    document.getElementById('questionDisplay').innerHTML = q.text;
+
+    this.entities = this.entities.filter(e => !(e instanceof Moringa));
+    this.moringas = [];
+
+    const margin = 20;
+    const startX = 100 + margin;
+    const endX = this.logicalWidth - 120 - margin;
+    const availableWidth = Math.max(endX - startX, 0);
+    const spacing = q.options.length > 1 ? availableWidth / (q.options.length - 1) : 0;
+
+    q.options.forEach((opt, i) => {
+      const isCorrect = (i === q.correct);
+      const m = new Moringa(startX + i * spacing, this.logicalHeight - 200 -200 , opt, isCorrect);
+      this.moringas.push(m);
+      this.entities.push(m);
+    });
+  }
+
+  screenToWorld(canvasX, canvasY) {
+    return { x: canvasX + this.scrollX, y: canvasY + this.scrollY };
+  }
+
+  worldToScreen(worldX, worldY) {
+    return { x: worldX - this.scrollX, y: worldY - this.scrollY };
+  }
+
+  getObjectAt(canvasX, canvasY) {
+    const world = this.screenToWorld(canvasX, canvasY);
+    for (let i = this.entities.length - 1; i >= 0; i--) {
+      const entity = this.entities[i];
+      const b = entity.getBounds();
+      if (world.x >= b.x && world.x <= b.x + b.width &&
+          world.y >= b.y && world.y <= b.y + b.height) {
+        return entity;
+      }
+    }
+    return null;
+  }
+
+  setupInput() {
+    document.getElementById('startBtn').addEventListener('click', () => {
+      this.audio.resume();
+      this.startGame();
+    });
+    document.getElementById('restartBtn').addEventListener('click', () => {
+      this.audio.resume();
+      this.startGame();
+    });
+
+    this.canvas.addEventListener('mousemove', (e) => {
+      if (this.state !== 'PLAYING') return;
+      const rect = this.canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const hoveredEntity = this.getObjectAt(x, y);
+      this.moringas.forEach(m => {
+        m.hover = (m === hoveredEntity);
+      });
+    });
+
+    this.canvas.addEventListener('click', (e) => {
+      if (this.state !== 'PLAYING') return;
+      if (this.player && this.player.isMoving) return;
+      const rect = this.canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const clickedEntity = this.getObjectAt(x, y);
+      if (clickedEntity && clickedEntity instanceof Moringa) {
+        this.player.walkTo(clickedEntity.x - 60, () => {
+          this.handleAnswer(clickedEntity.isCorrect);
+        });
+      }
+    });
+  }
+
+  handleAnswer(isCorrect) {
+    if (isCorrect) {
+      this.audio.playCorrect();
+      this.score += 10;
+
+      const messages = [
+        "Excelente! 1923 marcou o início da jornada educacional de Roquette-Pinto.",
+        "Correto! O rádio seria capaz de alcançar milhares de brasileiros.",
+        "Muito bem! A Rádio Sociedade tornou-se um marco da educação pelo rádio.",
+        "Excelente! Educação e ciência eram prioridades das transmissões."
+      ];
+
+      alert(messages[this.currentQuestionIndex]);
+
+      this.currentQuestionIndex++;
+
+      if (this.currentQuestionIndex < this.questions.length) {
+        this.loadQuestion(this.currentQuestionIndex);
+        this.player.x = 20;
+      } else {
+        this.endGame();
+      }
+    } else {
+      this.audio.playWrong();
+      alert("Essa pista não parece correta. Observe melhor os objetos ao redor.");
+      this.player.walkTo(20, null);
+    }
+    this.updateHUD();
+  }
+
+  endGame() {
+    this.state = 'END';
+    this.audio.stopBGM();
+    document.getElementById('hud').classList.add('hidden');
+    document.getElementById('endScreen').classList.remove('hidden');
+    
+    let bestScore = this.score;
+    if (this.saveData) {
+      if (this.score > this.saveData.highScore) {
+        this.saveData.highScore = this.score;
+localStorage.setItem(
+  "highScore",
+  this.saveData.highScore
+);
+      }
+      bestScore = this.saveData.highScore;
+    }
+    
+    document.getElementById('finalScore').innerText = `Pontos: ${this.score}\nRecorde: ${bestScore}`;
+  }
+
+  updateHUD() {
+    document.getElementById('scoreDisplay').innerText = `Pontos: ${this.score}`;
+  }
+
+  update(dt) {
+    for (const entity of this.entities) {
+      entity.update(dt);
+    }
+  }
+
+  draw() {
+    this.ctx.clearRect(0, 0, this.logicalWidth || this.canvas.width, this.logicalHeight || this.canvas.height);
+    for (const entity of this.entities) {
+      entity.draw(this.ctx);
+    }
+  }
+
+  start() {
+    const gameLoop = (timestamp) => {
+      const dt = (timestamp - this.lastTime) / 1000;
+      this.lastTime = timestamp;
+      this.update(dt);
+      this.draw();
+      requestAnimationFrame(gameLoop);
+    };
+    requestAnimationFrame(gameLoop);
+  }
+}
