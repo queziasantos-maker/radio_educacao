@@ -14,7 +14,7 @@ class Game {
     this.questions = [
 {
 text: `
-Frequência 1 – <p>O início de uma grande ideia<br></p>
+<p>Frequência 1 – O início de uma grande ideia<br></p>
 Umas das memórias perdidas foi encontrada. Analise a primeira fonte histórica. Ela contém uma pista sobre a origem de uma das maiores revoluções da comunicação.
 "A ideia consiste em levar música aos lares por meio da transmissão sem fios."
 Fonte: SARNOFF apud OLIVEIRA (2011, p.23). Em: OLIVEIRA.
