@@ -32,7 +32,7 @@ correct:0
 
 {
 text:`
-Frequência 2 - Um evento histórico
+<p>Frequência 2 - Um evento histórico<br></p>
 "No dia 7 de setembro de 1922, brasileiros ouviram pela primeira vez uma transmissão de rádio..."
 Fonte: BRASIL. Ministério das Comunicações.
 Primeira transmissão oficial, em 1922, marcou o início do rádio no Brasil.
@@ -53,7 +53,7 @@ correct:2
 
 {
 text:`
-Frequência 3 – Novas conexões
+<p>Frequência 3 – Novas conexões<br></p>
 
 Uma nova memória foi restaurada.
 Analise a fonte histórica e descubra o que impulsionou
@@ -79,7 +79,7 @@ correct:0
 
 {
 text:`
-Frequência 4 - Sintonizando 1926
+<p>Frequência 4 - Sintonizando 1926<br></p>
 
 Você acaba de desembarcar em 1926. Uma vitrine exibe um grande anúncio da "Philips".
 As pessoas param para observá-lo com curiosidade. 
@@ -113,15 +113,14 @@ correct:0
 {
 text:`
 
-Frequência 6 – A missão educativa de Roquette-Pinto
+<p>Frequência 6 – A missão educativa de Roquette-Pinto<br></p>
 
 Em 1923, o educador Edgar Roquette-Pinto criou a Rádio Sociedade do Rio de Janeiro,
 acreditando que o rádio poderia levar educação e cultura a todos.
-Fonte:
 "[...] A rádio foi projetada para ser uma verdadeira 'escola' [...]
 Foi idealizada para ser, nas palavras de Roquette,
 'o livro dos que não sabiam ler'."
-LIMA, Nísia Trindade; SÁ, Dominichi Miranda de.
+Fonte: LIMA, Nísia Trindade; SÁ, Dominichi Miranda de.
 Roquette-Pinto: ciência e humanismo no Brasil do século XX.
 ANPUH, 2005, p. 8.
 Ao chamar o rádio de "o livro dos que não sabiam ler", o que Roquette-Pinto queria destacar?
@@ -139,9 +138,8 @@ correct:3
 text:`
 Frequência 7 – A criação da Rádio Sociedade
 
-Fonte:
 "Roquette-Pinto foi o principal idealizador da Rádio Sociedade do Rio de Janeiro."
-MOREIRA; MASSARANI, 2001.
+Fonte: MOREIRA; MASSARANI, 2001.
 Qual era o principal objetivo de Roquette-Pinto ao criar a Rádio Sociedade?
 `,
 options:[
@@ -155,7 +153,7 @@ correct:1
 
 {
 text:`
-Frequência 8 – Ariosto Espinheira
+<p>Frequência 8 – Ariosto Espinheira<br></p>
 
 Uma nova memória foi encontrada.
 Ariosto Espinheira transformou o rádio em uma verdadeira sala de aula sobre o Brasil.
@@ -176,7 +174,7 @@ correct:3
 
 {
 text:`
-Frequência 9 – História pelo Rádio
+<p>Frequência 9 – História pelo Rádio<br></p>
 
 As transmissões educativas utilizavam diferentes recursos sonoros
 para tornar as aulas mais interessantes.
@@ -198,7 +196,7 @@ options:[
 ,
 {
 text:`
-Frequência 10 – Movimento de Educação de Base (MEB)
+<p>Frequência 10 – Movimento de Educação de Base (MEB)<br></p>
 
 "O Movimento de Educação de Base (MEB) tinha como objetivo ensinar jovens e adultos que moravam no campo ou em lugares afastados, promovendo a alfabetização e a formação cidadã."
 Fonte: MACIEL, Rogério Andrade; CASTRO, Cesar Augusto (2016).
@@ -215,7 +213,7 @@ correct:3
 
 {
 text:`
-Frequência 11 – Cartas
+<p>Frequência 11 – Cartas<br></p>
 
 "As cartas facilitavam a comunicação entre professores e alunos que moravam distantes."
 Fonte: Adaptado de ALVES, Kelly Ludkiewicz. Entre as cartas e o rádio. Salvador: EDUFBA, 2022.
@@ -232,7 +230,7 @@ correct:2
 
 {
 text:`
-Frequência 12 – Projeto Minerva
+<p>Frequência 12 – Projeto Minerva<br></p>
 
 "O Projeto Minerva utilizava o rádio para ensinar trabalhadores que viviam em regiões remotas."
 Fonte: ARGÔLO, Idália M. T. (2010).
@@ -249,7 +247,7 @@ correct:3
 
 {
 text:`
-Frequência 13 – Ginásio do Ar
+<p>Frequência 13 – Ginásio do Ar<br></p>
 
 "O Ginásio do Ar oferecia aulas pelo rádio para quem desejava concluir os estudos do ensino fundamental."
 Fonte: ARGÔLO, Idália M. T. (2010).
@@ -266,7 +264,7 @@ correct:1
 
 {
 text:`
-Frequência 14 – IRDEB
+<p>Frequência 14 – IRDEB<br></p>
 
 "O IRDEB passou a produzir programas educativos para o rádio, contribuindo para a formação de milhares de pessoas na Bahia."
 Fonte: ARGÔLO, Idália M. T. (2010).
