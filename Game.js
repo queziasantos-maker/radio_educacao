@@ -53,8 +53,7 @@ text:`
 <p>Frequência 3 – Novas conexões<br></p>
 
 Uma nova memória foi restaurada.
-Analise a fonte histórica e descubra o que impulsionou
-o surgimento do radioamadorismo.
+Surgimento do radioamadorismo.
 "Assim, duas foram as motrizes que alavancaram o radioamadorismo:
 a curiosidade técnica e a necessidade de suprir lacunas de comunicação
 entre pontos remotos..."
@@ -155,9 +154,8 @@ text:`
 Uma nova memória foi encontrada.
 Ariosto Espinheira transformou o rádio em uma verdadeira sala de aula sobre o Brasil.
 "O Brasil foi apresentado aos estudantes de forma inédita:
-como um país dividido em cinco regiões segundo suas características naturais." ESPINHEIRA, 1938, p.42,
-apud 
-Fonte: COELHO, 2016.
+como um país dividido em cinco regiões segundo suas características naturais."  
+Fonte: COELHO, 2016. ESPINHEIRA, 1938, p.42, apud.
 Desafio do Caçador de Pistas: O que Ariosto Espinheira pretendia ao ensinar Geografia pelo rádio?
 `,
 options:[
@@ -174,9 +172,9 @@ text:`
 <p>Frequência 9 – História pelo Rádio<br></p>
 
 As transmissões educativas utilizavam diferentes recursos sonoros
-para tornar as aulas mais interessantes.
-Fonte:"...utilizava recursos de sonoplastia [...] capazes de estimular a imaginação do ouvinte."
-COELHO, 2016, p.162.
+para tornar as aulas mais interessantes. 
+"...utilizava recursos de sonoplastia [...] capazes de estimular a imaginação do ouvinte."
+Fonte: COELHO, 2016, p.162.
 O que essa estratégia permitiu ao programa de rádio?
 `,
 options:[
