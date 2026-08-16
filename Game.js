@@ -37,7 +37,7 @@ text:`
 no Brasil.
 Fonte: BRASIL. Ministério das Comunicações. Publicado em 6 setembro 2022.
 <p><br></p>
-Descubra qual acontecimento histórico estava sendo celebrado durante essa primeira transmissão oficial de rádio.
+Qual acontecimento histórico foi celebrado durante a primeira transmissão oficial de rádio?
 `,
 options:[
 "A Proclamação da República.",
