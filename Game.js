@@ -34,11 +34,10 @@ correct:0
 text:`
 <p>Frequência 2 - Um evento histórico<br></p>
 "No dia 7 de setembro de 1922, brasileiros ouviram pela primeira vez uma transmissão de rádio..."
-Fonte: BRASIL. Ministério das Comunicações.
 Primeira transmissão oficial, em 1922, marcou o início do rádio no Brasil.
 Publicado em 6 set. 2022.
-Você acabou de chegar ao Rio de Janeiro, em 7 de setembro de 1922.
-Ao ligar um rádio experimental, você ouve um discurso que ficará marcado
+Fonte: BRASIL. Ministério das Comunicações.
+Você acabou de chegar ao Rio de Janeiro, em 7 de setembro de 1922. Ao ligar um rádio experimental, você ouve um discurso que ficará marcado
 na história do Brasil.
 Descubra qual acontecimento histórico estava sendo celebrado durante essa primeira transmissão oficial de rádio.
 `,
@@ -136,7 +135,7 @@ correct:3
 
 {
 text:`
-Frequência 7 – A criação da Rádio Sociedade
+<p>Frequência 7 – A criação da Rádio Sociedade<br></p>
 
 "Roquette-Pinto foi o principal idealizador da Rádio Sociedade do Rio de Janeiro."
 Fonte: MOREIRA; MASSARANI, 2001.
@@ -157,10 +156,10 @@ text:`
 
 Uma nova memória foi encontrada.
 Ariosto Espinheira transformou o rádio em uma verdadeira sala de aula sobre o Brasil.
-Fonte:
 "O Brasil foi apresentado aos estudantes de forma inédita:
 como um país dividido em cinco regiões segundo suas características naturais." ESPINHEIRA, 1938, p.42,
-apud COELHO, 2016.
+apud 
+Fonte: COELHO, 2016.
 Desafio do Caçador de Pistas: O que Ariosto Espinheira pretendia ao ensinar Geografia pelo rádio?
 `,
 options:[
