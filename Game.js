@@ -37,8 +37,8 @@ text:`
 Primeira transmissão oficial, em 1922, marcou o início do rádio no Brasil.
 Publicado em 6 set. 2022.
 Fonte: BRASIL. Ministério das Comunicações.
-Você acabou de chegar ao Rio de Janeiro, em 7 de setembro de 1922. Ao ligar um rádio experimental, você ouve um discurso que ficará marcado
-na história do Brasil.
+<p>Você acabou de chegar ao Rio de Janeiro, em 7 de setembro de 1922. Ao ligar um rádio experimental, você ouve um discurso que ficará marcado
+na história do Brasil.<br></p> 
 Descubra qual acontecimento histórico estava sendo celebrado durante essa primeira transmissão oficial de rádio.
 `,
 options:[
